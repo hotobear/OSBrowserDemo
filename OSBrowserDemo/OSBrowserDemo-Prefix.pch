@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'OSBrowserDemo' target in the 'OSBrowserDemo' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif
