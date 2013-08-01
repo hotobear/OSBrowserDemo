@@ -12,7 +12,10 @@
 		363E456817AA47F9005C2A1E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 363E456717AA47F9005C2A1E /* main.m */; };
 		363E456C17AA47F9005C2A1E /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 363E456A17AA47F9005C2A1E /* Credits.rtf */; };
 		363E456F17AA47F9005C2A1E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 363E456E17AA47F9005C2A1E /* AppDelegate.m */; };
-		363E457217AA47F9005C2A1E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 363E457017AA47F9005C2A1E /* MainMenu.xib */; };
+		363E457A17AA4918005C2A1E /* BrowserWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 363E457917AA4918005C2A1E /* BrowserWindowController.m */; };
+		363E457F17AA4C47005C2A1E /* BrowserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 363E457C17AA4C47005C2A1E /* BrowserView.m */; };
+		363E458017AA4C47005C2A1E /* BrowserWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 363E457E17AA4C47005C2A1E /* BrowserWindow.m */; };
+		363E458317AA4CC5005C2A1E /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 363E458217AA4CC5005C2A1E /* WebKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,7 +31,14 @@
 		363E456B17AA47F9005C2A1E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		363E456D17AA47F9005C2A1E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		363E456E17AA47F9005C2A1E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		363E457117AA47F9005C2A1E /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		363E457817AA4918005C2A1E /* BrowserWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowserWindowController.h; sourceTree = "<group>"; };
+		363E457917AA4918005C2A1E /* BrowserWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrowserWindowController.m; sourceTree = "<group>"; };
+		363E457B17AA4C47005C2A1E /* BrowserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowserView.h; sourceTree = "<group>"; };
+		363E457C17AA4C47005C2A1E /* BrowserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrowserView.m; sourceTree = "<group>"; };
+		363E457D17AA4C47005C2A1E /* BrowserWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowserWindow.h; sourceTree = "<group>"; };
+		363E457E17AA4C47005C2A1E /* BrowserWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrowserWindow.m; sourceTree = "<group>"; };
+		363E458117AA4C7A005C2A1E /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
+		363E458217AA4CC5005C2A1E /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				363E458317AA4CC5005C2A1E /* WebKit.framework in Frameworks */,
 				363E455C17AA47F9005C2A1E /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -72,6 +83,7 @@
 		363E455D17AA47F9005C2A1E /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				363E458217AA4CC5005C2A1E /* WebKit.framework */,
 				363E455E17AA47F9005C2A1E /* AppKit.framework */,
 				363E455F17AA47F9005C2A1E /* CoreData.framework */,
 				363E456017AA47F9005C2A1E /* Foundation.framework */,
@@ -82,9 +94,15 @@
 		363E456117AA47F9005C2A1E /* OSBrowserDemo */ = {
 			isa = PBXGroup;
 			children = (
+				363E458117AA4C7A005C2A1E /* Common.h */,
 				363E456D17AA47F9005C2A1E /* AppDelegate.h */,
 				363E456E17AA47F9005C2A1E /* AppDelegate.m */,
-				363E457017AA47F9005C2A1E /* MainMenu.xib */,
+				363E457817AA4918005C2A1E /* BrowserWindowController.h */,
+				363E457917AA4918005C2A1E /* BrowserWindowController.m */,
+				363E457D17AA4C47005C2A1E /* BrowserWindow.h */,
+				363E457E17AA4C47005C2A1E /* BrowserWindow.m */,
+				363E457B17AA4C47005C2A1E /* BrowserView.h */,
+				363E457C17AA4C47005C2A1E /* BrowserView.m */,
 				363E456217AA47F9005C2A1E /* Supporting Files */,
 			);
 			path = OSBrowserDemo;
@@ -154,7 +172,6 @@
 			files = (
 				363E456617AA47F9005C2A1E /* InfoPlist.strings in Resources */,
 				363E456C17AA47F9005C2A1E /* Credits.rtf in Resources */,
-				363E457217AA47F9005C2A1E /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -167,6 +184,9 @@
 			files = (
 				363E456817AA47F9005C2A1E /* main.m in Sources */,
 				363E456F17AA47F9005C2A1E /* AppDelegate.m in Sources */,
+				363E457A17AA4918005C2A1E /* BrowserWindowController.m in Sources */,
+				363E457F17AA4C47005C2A1E /* BrowserView.m in Sources */,
+				363E458017AA4C47005C2A1E /* BrowserWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -187,14 +207,6 @@
 				363E456B17AA47F9005C2A1E /* en */,
 			);
 			name = Credits.rtf;
-			sourceTree = "<group>";
-		};
-		363E457017AA47F9005C2A1E /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				363E457117AA47F9005C2A1E /* en */,
-			);
-			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -300,6 +312,7 @@
 				363E457717AA47F9005C2A1E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
