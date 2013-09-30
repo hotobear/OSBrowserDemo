@@ -16,6 +16,7 @@
 		363E457F17AA4C47005C2A1E /* BrowserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 363E457C17AA4C47005C2A1E /* BrowserView.m */; };
 		363E458017AA4C47005C2A1E /* BrowserWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 363E457E17AA4C47005C2A1E /* BrowserWindow.m */; };
 		363E458317AA4CC5005C2A1E /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 363E458217AA4CC5005C2A1E /* WebKit.framework */; };
+		36C16FD017F92517007FB340 /* URLTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C16FCF17F92517007FB340 /* URLTool.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,8 @@
 		363E457E17AA4C47005C2A1E /* BrowserWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrowserWindow.m; sourceTree = "<group>"; };
 		363E458117AA4C7A005C2A1E /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		363E458217AA4CC5005C2A1E /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		36C16FCE17F92517007FB340 /* URLTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLTool.h; sourceTree = "<group>"; };
+		36C16FCF17F92517007FB340 /* URLTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLTool.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +106,7 @@
 				363E457E17AA4C47005C2A1E /* BrowserWindow.m */,
 				363E457B17AA4C47005C2A1E /* BrowserView.h */,
 				363E457C17AA4C47005C2A1E /* BrowserView.m */,
+				36C16FCD17F924F7007FB340 /* tools */,
 				363E456217AA47F9005C2A1E /* Supporting Files */,
 			);
 			path = OSBrowserDemo;
@@ -118,6 +122,15 @@
 				363E456A17AA47F9005C2A1E /* Credits.rtf */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		36C16FCD17F924F7007FB340 /* tools */ = {
+			isa = PBXGroup;
+			children = (
+				36C16FCE17F92517007FB340 /* URLTool.h */,
+				36C16FCF17F92517007FB340 /* URLTool.m */,
+			);
+			path = tools;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -146,7 +159,7 @@
 		363E455017AA47F9005C2A1E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0500;
 			};
 			buildConfigurationList = 363E455317AA47F9005C2A1E /* Build configuration list for PBXProject "OSBrowserDemo" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -187,6 +200,7 @@
 				363E457A17AA4918005C2A1E /* BrowserWindowController.m in Sources */,
 				363E457F17AA4C47005C2A1E /* BrowserView.m in Sources */,
 				363E458017AA4C47005C2A1E /* BrowserWindow.m in Sources */,
+				36C16FD017F92517007FB340 /* URLTool.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,7 +230,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -248,7 +261,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_CONSTANT_CONVERSION = YES;

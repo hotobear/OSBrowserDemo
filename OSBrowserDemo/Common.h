@@ -10,5 +10,7 @@
 #define BrowserDemoForMac_Common_h
 
 #define MAIN_PAGE_URL               @"http://www.baidu.com/"
+#define DEFAULT_URL_SCHEME             @"http://"
+
 
 #endif
