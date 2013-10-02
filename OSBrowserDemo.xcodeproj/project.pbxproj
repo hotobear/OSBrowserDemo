@@ -17,6 +17,9 @@
 		363E458017AA4C47005C2A1E /* BrowserWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 363E457E17AA4C47005C2A1E /* BrowserWindow.m */; };
 		363E458317AA4CC5005C2A1E /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 363E458217AA4CC5005C2A1E /* WebKit.framework */; };
 		36C16FD017F92517007FB340 /* URLTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C16FCF17F92517007FB340 /* URLTool.m */; };
+		36C16FD417F9BA09007FB340 /* LBProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C16FD317F9BA09007FB340 /* LBProgressBar.m */; };
+		36C16FDA17FA9954007FB340 /* LongPressButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C16FD917FA9954007FB340 /* LongPressButton.m */; };
+		36C16FDD17FAB61F007FB340 /* LongPressPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C16FDC17FAB61F007FB340 /* LongPressPopUpButton.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +45,12 @@
 		363E458217AA4CC5005C2A1E /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		36C16FCE17F92517007FB340 /* URLTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLTool.h; sourceTree = "<group>"; };
 		36C16FCF17F92517007FB340 /* URLTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLTool.m; sourceTree = "<group>"; };
+		36C16FD217F9BA09007FB340 /* LBProgressBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBProgressBar.h; sourceTree = "<group>"; };
+		36C16FD317F9BA09007FB340 /* LBProgressBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBProgressBar.m; sourceTree = "<group>"; };
+		36C16FD817FA9954007FB340 /* LongPressButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LongPressButton.h; sourceTree = "<group>"; };
+		36C16FD917FA9954007FB340 /* LongPressButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LongPressButton.m; sourceTree = "<group>"; };
+		36C16FDB17FAB61F007FB340 /* LongPressPopUpButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LongPressPopUpButton.h; sourceTree = "<group>"; };
+		36C16FDC17FAB61F007FB340 /* LongPressPopUpButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LongPressPopUpButton.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +115,7 @@
 				363E457E17AA4C47005C2A1E /* BrowserWindow.m */,
 				363E457B17AA4C47005C2A1E /* BrowserView.h */,
 				363E457C17AA4C47005C2A1E /* BrowserView.m */,
+				36C16FD117F9B9ED007FB340 /* views */,
 				36C16FCD17F924F7007FB340 /* tools */,
 				363E456217AA47F9005C2A1E /* Supporting Files */,
 			);
@@ -131,6 +141,19 @@
 				36C16FCF17F92517007FB340 /* URLTool.m */,
 			);
 			path = tools;
+			sourceTree = "<group>";
+		};
+		36C16FD117F9B9ED007FB340 /* views */ = {
+			isa = PBXGroup;
+			children = (
+				36C16FD217F9BA09007FB340 /* LBProgressBar.h */,
+				36C16FD317F9BA09007FB340 /* LBProgressBar.m */,
+				36C16FD817FA9954007FB340 /* LongPressButton.h */,
+				36C16FD917FA9954007FB340 /* LongPressButton.m */,
+				36C16FDB17FAB61F007FB340 /* LongPressPopUpButton.h */,
+				36C16FDC17FAB61F007FB340 /* LongPressPopUpButton.m */,
+			);
+			path = views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -198,7 +221,10 @@
 				363E456817AA47F9005C2A1E /* main.m in Sources */,
 				363E456F17AA47F9005C2A1E /* AppDelegate.m in Sources */,
 				363E457A17AA4918005C2A1E /* BrowserWindowController.m in Sources */,
+				36C16FDD17FAB61F007FB340 /* LongPressPopUpButton.m in Sources */,
 				363E457F17AA4C47005C2A1E /* BrowserView.m in Sources */,
+				36C16FD417F9BA09007FB340 /* LBProgressBar.m in Sources */,
+				36C16FDA17FA9954007FB340 /* LongPressButton.m in Sources */,
 				363E458017AA4C47005C2A1E /* BrowserWindow.m in Sources */,
 				36C16FD017F92517007FB340 /* URLTool.m in Sources */,
 			);

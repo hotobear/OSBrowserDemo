@@ -7,8 +7,33 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <WebKit/WebKit.h>
+
+@class BrowserView;
+
+@protocol BrowserViewDelegate
+
+///> progress
+- (void)browserView:(BrowserView *)browserView didChangeProgress:(float)progress;
+- (void)browserViewDidStartProgress:(BrowserView *)browserView;
+- (void)browserViewDidEndProgress:(BrowserView *)browserView;
+
+///> data source
+- (void)browserView:(BrowserView *)browserView didReceiveURL:(NSString *)URLString;
+- (void)browserView:(BrowserView *)browserView didReceiveTitle:(NSString *)title;
+- (void)browserView:(BrowserView *)browserView didReceiveIcon:(NSImage *)icon;
+
+///> state change
+- (void)browserViewDidStartProvisionalLoad:(BrowserView *)browserView;
+- (void)browserViewDidCommitLoadForFrame:(BrowserView *)browserView;
+- (void)browserViewDidFinishLoadForFrame:(BrowserView *)browserView;
+- (void)browserView:(BrowserView *)browserView didFailLoadWithError:(NSError *)error;
+@end
+
 
 @interface BrowserView : NSView
+
+@property (nonatomic, assign) id<BrowserViewDelegate> delegate;
 
 ///> load
 - (void)loadURLString:(NSString *)URLString;
@@ -20,6 +45,15 @@
 
 ///> stop reload
 - (void)reload:(id)sender;
-- (void)stop:(id)sender;
+- (void)stopLoading:(id)sender;
+
+///> state
+- (BOOL)isLoading;
+- (BOOL)canGoForward;
+- (BOOL)canGoBack;
+
+///> backforward List
+- (WebBackForwardList *)backForwardList;
+- (BOOL)goToBackForwardItem:(WebHistoryItem *)item;
 
 @end
