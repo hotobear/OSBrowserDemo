@@ -9,8 +9,8 @@
 #ifndef BrowserDemoForMac_Common_h
 #define BrowserDemoForMac_Common_h
 
-#define MAIN_PAGE_URL               @"http://www.baidu.com/"
-#define DEFAULT_URL_SCHEME             @"http://"
+#define MAIN_PAGE_URL                   @"http://www.google.com/"
+#define DEFAULT_URL_SCHEME              @"http://"
 
 
 #endif

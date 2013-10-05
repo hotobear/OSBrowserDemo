@@ -290,7 +290,9 @@
         
         for (WebHistoryItem *item in backlist)
         {
-            NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:[item title] action:@selector(backForwardMenuDidClicked:) keyEquivalent:@""];
+            NSString *title = [item title].length != 0 ? [item title] : [item URLString];
+            assert(title);
+            NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:title action:@selector(backForwardMenuDidClicked:) keyEquivalent:@""];
             menuItem.representedObject = item;
             [menuItem setImage:[item icon]];
             [menu insertItem:menuItem atIndex:0];
@@ -304,7 +306,9 @@
         NSEnumerator *reverseList = [forwardlist reverseObjectEnumerator];
         for (WebHistoryItem *item in reverseList)
         {
-            NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:[item title] action:@selector(backForwardMenuDidClicked:) keyEquivalent:@""];
+            NSString *title = [item title].length != 0 ? [item title] : [item URLString];
+            assert(title);
+            NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:title action:@selector(backForwardMenuDidClicked:) keyEquivalent:@""];
             menuItem.representedObject = item;
             [menuItem setImage:[item icon]];
             [menu insertItem:menuItem atIndex:0];
@@ -319,13 +323,11 @@
 #pragma mark - Button Action
 - (void)backItemDidClicked:(NSButton *)item
 {
-//    [self.icon setImage:[[[self.browserView backForwardList] backItem] icon]];
     [self.browserView goBack];
 }
 
 - (void)forwardItemDidClicked:(NSButton *)item
 {
-//    [self.icon setImage:[[[self.browserView backForwardList] forwardItem] icon]];
     [self.browserView goForward];
 }
 
@@ -333,7 +335,6 @@
 {
     WebHistoryItem* historyItem = item.representedObject;
     [self.browserView goToBackForwardItem:historyItem];
-//    [self.icon setImage:[historyItem icon]];
 }
 
 - (void)refreshItemDidClicked:(NSButton *)item

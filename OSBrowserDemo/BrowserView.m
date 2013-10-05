@@ -7,6 +7,7 @@
 //
 
 #import "BrowserView.h"
+#import "URLTool.h"
 
 @interface BrowserView ()
 
@@ -182,7 +183,14 @@
 
 - (void)webView:(WebView *)sender didFailProvisionalLoadWithError:(NSError *)error forFrame:(WebFrame *)frame
 {
-    
+    if (frame == [sender mainFrame])
+    {
+        NSError *err = nil;
+        NSString *html = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Error" ofType:@"html"] encoding:NSUTF8StringEncoding error:&err];
+        assert(!err);
+        html = [NSString stringWithFormat:html, [error localizedDescription]];
+        [self.webView.mainFrame loadAlternateHTMLString:html baseURL:[NSURL URLWithString:self.webView.mainFrameURL] forUnreachableURL:[NSURL URLWithString:self.webView.mainFrameURL]];
+    }
 }
 
 - (void)webView:(WebView *)sender didCommitLoadForFrame:(WebFrame *)frame

@@ -16,10 +16,12 @@
 		363E457F17AA4C47005C2A1E /* BrowserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 363E457C17AA4C47005C2A1E /* BrowserView.m */; };
 		363E458017AA4C47005C2A1E /* BrowserWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 363E457E17AA4C47005C2A1E /* BrowserWindow.m */; };
 		363E458317AA4CC5005C2A1E /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 363E458217AA4CC5005C2A1E /* WebKit.framework */; };
+		367DEFFD18006A73003474BB /* MultiWindowsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 367DEFFC18006A73003474BB /* MultiWindowsController.m */; };
 		36C16FD017F92517007FB340 /* URLTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C16FCF17F92517007FB340 /* URLTool.m */; };
 		36C16FD417F9BA09007FB340 /* LBProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C16FD317F9BA09007FB340 /* LBProgressBar.m */; };
 		36C16FDA17FA9954007FB340 /* LongPressButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C16FD917FA9954007FB340 /* LongPressButton.m */; };
 		36C16FDD17FAB61F007FB340 /* LongPressPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C16FDC17FAB61F007FB340 /* LongPressPopUpButton.m */; };
+		36C16FE317FDB0AB007FB340 /* Error.html in Resources */ = {isa = PBXBuildFile; fileRef = 36C16FE217FDB0AB007FB340 /* Error.html */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +45,8 @@
 		363E457E17AA4C47005C2A1E /* BrowserWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrowserWindow.m; sourceTree = "<group>"; };
 		363E458117AA4C7A005C2A1E /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		363E458217AA4CC5005C2A1E /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		367DEFFB18006A73003474BB /* MultiWindowsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiWindowsController.h; sourceTree = "<group>"; };
+		367DEFFC18006A73003474BB /* MultiWindowsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiWindowsController.m; sourceTree = "<group>"; };
 		36C16FCE17F92517007FB340 /* URLTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLTool.h; sourceTree = "<group>"; };
 		36C16FCF17F92517007FB340 /* URLTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLTool.m; sourceTree = "<group>"; };
 		36C16FD217F9BA09007FB340 /* LBProgressBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBProgressBar.h; sourceTree = "<group>"; };
@@ -51,6 +55,7 @@
 		36C16FD917FA9954007FB340 /* LongPressButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LongPressButton.m; sourceTree = "<group>"; };
 		36C16FDB17FAB61F007FB340 /* LongPressPopUpButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LongPressPopUpButton.h; sourceTree = "<group>"; };
 		36C16FDC17FAB61F007FB340 /* LongPressPopUpButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LongPressPopUpButton.m; sourceTree = "<group>"; };
+		36C16FE217FDB0AB007FB340 /* Error.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Error.html; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +114,8 @@
 				363E458117AA4C7A005C2A1E /* Common.h */,
 				363E456D17AA47F9005C2A1E /* AppDelegate.h */,
 				363E456E17AA47F9005C2A1E /* AppDelegate.m */,
+				367DEFFB18006A73003474BB /* MultiWindowsController.h */,
+				367DEFFC18006A73003474BB /* MultiWindowsController.m */,
 				363E457817AA4918005C2A1E /* BrowserWindowController.h */,
 				363E457917AA4918005C2A1E /* BrowserWindowController.m */,
 				363E457D17AA4C47005C2A1E /* BrowserWindow.h */,
@@ -130,6 +137,7 @@
 				363E456717AA47F9005C2A1E /* main.m */,
 				363E456917AA47F9005C2A1E /* OSBrowserDemo-Prefix.pch */,
 				363E456A17AA47F9005C2A1E /* Credits.rtf */,
+				36C16FDE17FBC7FC007FB340 /* resources */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -154,6 +162,22 @@
 				36C16FDC17FAB61F007FB340 /* LongPressPopUpButton.m */,
 			);
 			path = views;
+			sourceTree = "<group>";
+		};
+		36C16FDE17FBC7FC007FB340 /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				36C16FDF17FBC7FC007FB340 /* html */,
+			);
+			path = resources;
+			sourceTree = "<group>";
+		};
+		36C16FDF17FBC7FC007FB340 /* html */ = {
+			isa = PBXGroup;
+			children = (
+				36C16FE217FDB0AB007FB340 /* Error.html */,
+			);
+			path = html;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -208,6 +232,7 @@
 			files = (
 				363E456617AA47F9005C2A1E /* InfoPlist.strings in Resources */,
 				363E456C17AA47F9005C2A1E /* Credits.rtf in Resources */,
+				36C16FE317FDB0AB007FB340 /* Error.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -219,6 +244,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				363E456817AA47F9005C2A1E /* main.m in Sources */,
+				367DEFFD18006A73003474BB /* MultiWindowsController.m in Sources */,
 				363E456F17AA47F9005C2A1E /* AppDelegate.m in Sources */,
 				363E457A17AA4918005C2A1E /* BrowserWindowController.m in Sources */,
 				36C16FDD17FAB61F007FB340 /* LongPressPopUpButton.m in Sources */,
