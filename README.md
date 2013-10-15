@@ -12,3 +12,8 @@ Function:
 1. Base browser fun: load, reload, backForward
 2. Long click backForward buttons to jump to some history item
 3. Show error page when main frame load error occurs.
+4. More functions will be update
+
+
+Your contribution will be great help for me. Thanks!
+
