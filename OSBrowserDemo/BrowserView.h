@@ -28,6 +28,9 @@
 - (void)browserViewDidCommitLoadForFrame:(BrowserView *)browserView;
 - (void)browserViewDidFinishLoadForFrame:(BrowserView *)browserView;
 - (void)browserView:(BrowserView *)browserView didFailLoadWithError:(NSError *)error;
+
+///> Policy
+- (void)browserView:(BrowserView *)browserView decidePolicyForNewWindowWithRequest:(NSURLRequest *)request;
 @end
 
 

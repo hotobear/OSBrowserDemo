@@ -30,4 +30,9 @@
     return self;
 }
 
+- (void)loadRequest:(NSURLRequest *)request
+{
+    [(BrowserWindow *)self.window loadRequest:request];
+}
+
 @end

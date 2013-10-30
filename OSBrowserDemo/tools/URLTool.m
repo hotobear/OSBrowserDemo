@@ -13,8 +13,8 @@
 + (NSString *)standardizeHTTPURLString:(NSString *)URLString
 {
     NSURL *URL = [[[NSURL alloc] initWithString:(0 == URLString.length ? MAIN_PAGE_URL : URLString)] autorelease];
-    NSString *fullURLString = nil;
-    
+    NSString *fullURLString = URLString;
+
     if (0 == URL.resourceSpecifier.length)
     {
         fullURLString = MAIN_PAGE_URL;

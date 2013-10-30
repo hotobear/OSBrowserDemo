@@ -10,6 +10,7 @@
 
 @interface LongPressButton : NSButton
 
+- (void)setLongPressTime:(float)time;
 - (void)setLongPressAction:(SEL)aSelector;
 - (void)mouseDownLongPress:(NSEvent *)theEvent;
 

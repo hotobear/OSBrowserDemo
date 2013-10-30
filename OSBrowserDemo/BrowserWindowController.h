@@ -10,4 +10,6 @@
 
 @interface BrowserWindowController : NSWindowController
 
+- (void)loadRequest:(NSURLRequest *)request;
+
 @end

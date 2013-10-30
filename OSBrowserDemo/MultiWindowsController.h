@@ -8,6 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+@class BrowserWindowController;
+
 @interface MultiWindowsController : NSObject
 
++ (MultiWindowsController *)defaultController;
+
++ (void)prepared;
+ 
 @end

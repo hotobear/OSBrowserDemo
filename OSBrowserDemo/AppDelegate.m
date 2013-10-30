@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "BrowserWindowController.h"
+#import "MultiWindowsController.h"
 
 @interface AppDelegate ()
 
@@ -31,9 +31,8 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    self.windowController = [[BrowserWindowController alloc] init];
-    
-    [[self.windowController window] makeKeyAndOrderFront:self];
+    [MultiWindowsController prepared];
+    [[NSNotificationCenter defaultCenter] postNotificationName:NSWindowAddNewBrowserWindowNotification object:nil userInfo:nil];
 }
 
 - (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag

@@ -8,9 +8,12 @@
 
 #import "LongPressButton.h"
 
+#define DEFAULT_LONG_PRESS_TIME         0.5
+
 @interface LongPressButton ()
 {
     SEL m_longPressAction;
+    float m_longPressTime;
 }
 
 @property (nonatomic, assign) BOOL isMouseDown;
@@ -38,8 +41,14 @@
     
     [self highlight:YES];
     
-    self.isMouseDown=YES;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+    self.isMouseDown = YES;
+    
+    if (m_longPressTime <= 0)
+    {
+        [self setLongPressTime:DEFAULT_LONG_PRESS_TIME];
+    }
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, m_longPressTime * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         if (isMouseDown)
         {
             [self mouseDownLongPress:theEvent];
@@ -68,5 +77,12 @@
 {
     m_longPressAction = aSelector;
 }
+
+- (void)setLongPressTime:(float)time
+{
+    assert(time > 0);
+    m_longPressTime = time;
+}
+
 
 @end

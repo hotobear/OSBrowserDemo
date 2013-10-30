@@ -155,7 +155,10 @@
 #pragma mark - WebPolicyDelegate 
 - (void)webView:(WebView *)webView decidePolicyForNewWindowAction:(NSDictionary *)actionInformation request:(NSURLRequest *)request newFrameName:(NSString *)frameName decisionListener:(id < WebPolicyDecisionListener >)listener
 {
-    [self loadURLRequest:request];
+    if (self.delegate && [(NSObject *)self.delegate respondsToSelector:@selector(browserView:decidePolicyForNewWindowWithRequest:)])
+    {
+        [self.delegate browserView:self decidePolicyForNewWindowWithRequest:request];
+    }
 }
 
 - (void)webView:(WebView *)webView decidePolicyForMIMEType:(NSString *)type request:(NSURLRequest *)request frame:(WebFrame *)frame decisionListener:(id < WebPolicyDecisionListener >)listener

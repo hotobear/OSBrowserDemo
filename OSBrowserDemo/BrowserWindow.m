@@ -92,6 +92,12 @@
     [super dealloc];
 }
 
+#pragma mark - Browser
+- (void)loadRequest:(NSURLRequest *)request
+{
+    [self.browserView loadURLRequest:request];
+}
+
 #pragma mark - View Config
 
 - (void)loadViews
@@ -99,8 +105,6 @@
     [self layoutToolbar];
     [self layoutProgress];
     [self layoutWebView];
-    
-    [self.browserView loadURLString:MAIN_PAGE_URL];
 }
 
 - (void)layoutWebView
@@ -271,8 +275,11 @@
     if (self.URLTextField == control)
     {
         NSString *URLString = [URLTool standardizeHTTPURLString:fieldEditor.string];
-        [self.URLTextField setStringValue:URLString];
-        [self.browserView loadURLString:URLString];
+        if (URLString.length != 0)
+        {
+            [self.URLTextField setStringValue:URLString];
+            [self.browserView loadURLString:URLString];
+        }
     }
     
     return ret;
@@ -284,27 +291,23 @@
     NSMenu *menu = [[[NSMenu alloc] init] autorelease];
     WebBackForwardList *list = [self.browserView backForwardList];
     
+    id<NSFastEnumeration> orderedList = nil;
+    
     if (button == self.backButton)
     {
         NSArray *backlist = [list backListWithLimit:BACKFORWARD_LIST_LIMIT];
-        
-        for (WebHistoryItem *item in backlist)
-        {
-            NSString *title = [item title].length != 0 ? [item title] : [item URLString];
-            assert(title);
-            NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:title action:@selector(backForwardMenuDidClicked:) keyEquivalent:@""];
-            menuItem.representedObject = item;
-            [menuItem setImage:[item icon]];
-            [menu insertItem:menuItem atIndex:0];
-            [menuItem release];
-        }
+        orderedList = backlist;
     }
     else if (button == self.forwardButton)
     {
         NSArray *forwardlist = [list forwardListWithLimit:BACKFORWARD_LIST_LIMIT];
-        
         NSEnumerator *reverseList = [forwardlist reverseObjectEnumerator];
-        for (WebHistoryItem *item in reverseList)
+        orderedList = reverseList;
+    }
+    
+    if (orderedList)
+    {
+        for (WebHistoryItem *item in orderedList)
         {
             NSString *title = [item title].length != 0 ? [item title] : [item URLString];
             assert(title);
@@ -316,7 +319,6 @@
         }
     }
     
-
     return menu;
 }
 
@@ -410,6 +412,13 @@
 - (void)browserView:(BrowserView *)browserView didFailLoadWithError:(NSError *)error
 {
     [self refreshButtonOnLoadingStateChange:NO];
+}
+
+- (void)browserView:(BrowserView *)browserView decidePolicyForNewWindowWithRequest:(NSURLRequest *)request
+{
+    NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:request, @"request", nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:NSWindowAddNewBrowserWindowNotification object:nil userInfo:userInfo];
+    [userInfo release];
 }
 
 @end
