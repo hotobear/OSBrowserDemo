@@ -44,7 +44,7 @@
         [self.popUpCell performClickWithFrame:[self bounds] inView:self];
         [self setNeedsDisplay: YES];
         
-        [self mouseUp:nil];         ///< fake event
+        [self mouseUp:[NSEvent new]];         ///< fake event
     }
 }
 

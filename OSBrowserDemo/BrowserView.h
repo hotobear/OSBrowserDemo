@@ -56,7 +56,7 @@
 - (BOOL)canGoBack;
 
 ///> backforward List
-- (WebBackForwardList *)backForwardList;
-- (BOOL)goToBackForwardItem:(WebHistoryItem *)item;
+- (WKBackForwardList *)backForwardList;
+- (WKNavigation *)goToBackForwardItem:(WKBackForwardListItem *)item;
 
 @end

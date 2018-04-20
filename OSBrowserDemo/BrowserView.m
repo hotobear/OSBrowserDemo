@@ -9,9 +9,9 @@
 #import "BrowserView.h"
 #import "URLTool.h"
 
-@interface BrowserView ()
+@interface BrowserView () <WKNavigationDelegate, WKUIDelegate>
 
-@property (nonatomic, retain) WebView *webView;
+@property (nonatomic, retain) WKWebView *webView;
 
 - (void)createWebView;
 
@@ -31,7 +31,7 @@
         self.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
         
         [self createWebView];
-        [self addNotificationObserver];
+        [self addObserverForWKWebView];
     } 
     
     return self;
@@ -39,36 +39,58 @@
 
 - (void)dealloc
 {
+    [self removeObserverForWKWebView];
     self.webView = nil;
-    [self removeNotificationObserver];
     
     [super dealloc];
 }
 
 - (void)createWebView
 {
-    self.webView = [[[WebView alloc] initWithFrame:self.bounds] autorelease];
+    self.webView = [[[WKWebView alloc] initWithFrame:self.bounds] autorelease];
     self.webView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
     [self addSubview:self.webView];
 
-    self.webView.policyDelegate = self;
-    self.webView.frameLoadDelegate = self;
     self.webView.UIDelegate = self;
-    self.webView.downloadDelegate = self;
-    self.webView.resourceLoadDelegate = self;
-    self.webView.editingDelegate = self;
+    self.webView.navigationDelegate = self;
 }
 
-- (void)addNotificationObserver
-{
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(webViewProgressChanged:) name:WebViewProgressEstimateChangedNotification object:self.webView];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(webViewProgressStarted:) name:WebViewProgressStartedNotification object:self.webView];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(webViewProgressFinished:) name:WebViewProgressFinishedNotification object:self.webView];
+- (void)addObserverForWKWebView {
+    [self.webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:nil];
+    [self.webView addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew context:nil];
 }
 
-- (void)removeNotificationObserver
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+- (void)removeObserverForWKWebView {
+    [self.webView removeObserver:self forKeyPath:@"estimatedProgress"];
+    [self.webView removeObserver:self forKeyPath:@"title"];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if (self.webView) {
+        if ([keyPath isEqualToString:@"estimatedProgress"])
+        {
+            double estimatedProgress = self.webView.estimatedProgress;
+            if (estimatedProgress <= 0.1)
+            {
+                [self webViewProgressStarted:self.webView];
+            }
+            else if (estimatedProgress >= 1)
+            {
+                [self webViewProgressFinished:self.webView];
+            }
+            else
+            {
+                [self webViewProgressChanged:self.webView];
+            }
+        }
+        else if ([keyPath isEqualToString:@"title"])
+        {
+            if (self.delegate && [(NSObject *)self.delegate respondsToSelector:@selector(browserView:didReceiveTitle:)])
+            {
+                [self.delegate browserView:self didReceiveTitle:webView.title];
+            }
+        }
+    }
 }
 
 #pragma mark - WebView Methods
@@ -79,7 +101,7 @@
 
 - (void)loadURLRequest:(NSURLRequest *)URLRequest
 {
-    [[self.webView mainFrame] loadRequest:URLRequest];
+    [self.webView loadRequest:URLRequest];
 }
 
 - (void)goBack
@@ -117,18 +139,18 @@
     return [self.webView canGoBack];
 }
 
-- (WebBackForwardList *)backForwardList;
+- (WKBackForwardList *)backForwardList;
 {
     return self.webView.backForwardList;
 }
 
-- (BOOL)goToBackForwardItem:(WebHistoryItem *)item;
+- (WKNavigation *)goToBackForwardItem:(WKBackForwardListItem *)item;
 {
-    return [self.webView goToBackForwardItem:item];
+    return [self.webView goToBackForwardListItem:item];
 }
 
 #pragma mark - progress
-- (void)webViewProgressChanged:(WebView *)webView
+- (void)webViewProgressChanged:(WKWebView *)webView
 {
     if (self.delegate && [(NSObject *)self.delegate respondsToSelector:@selector(browserView:didChangeProgress:)])
     {
@@ -136,7 +158,7 @@
     }
 }
 
-- (void)webViewProgressStarted:(WebView *)webView
+- (void)webViewProgressStarted:(WKWebView *)webView
 {
     if (self.delegate && [(NSObject *)self.delegate respondsToSelector:@selector(browserViewDidStartProgress:)])
     {
@@ -144,7 +166,7 @@
     }
 }
 
-- (void)webViewProgressFinished:(WebView *)webView
+- (void)webViewProgressFinished:(WKWebView *)webView
 {
     if (self.delegate && [(NSObject *)self.delegate respondsToSelector:@selector(browserViewDidEndProgress:)])
     {
@@ -152,103 +174,129 @@
     }
 }
 
-#pragma mark - WebPolicyDelegate 
-- (void)webView:(WebView *)webView decidePolicyForNewWindowAction:(NSDictionary *)actionInformation request:(NSURLRequest *)request newFrameName:(NSString *)frameName decisionListener:(id < WebPolicyDecisionListener >)listener
+#pragma mark - WKNavigationDelegate
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
+{
+    decisionHandler(WKNavigationActionPolicyAllow);
+}
+
+- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(null_unspecified WKNavigation *)navigation
+{
+    if (self.delegate && [(NSObject *)self.delegate respondsToSelector:@selector(browserViewDidStartProvisionalLoad:)])
+    {
+        [self.delegate browserViewDidStartProvisionalLoad:self];
+    }
+    
+    NSString *url = webView.URL.absoluteString;
+    if (self.delegate && [(NSObject *)self.delegate respondsToSelector:@selector(browserView:didReceiveURL:)])
+    {
+        [self.delegate browserView:self didReceiveURL:url];
+    }
+}
+
+- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error
+{
+    NSError *err = nil;
+    NSString *html = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Error" ofType:@"html"] encoding:NSUTF8StringEncoding error:&err];
+    assert(!err);
+    html = [NSString stringWithFormat:html, [error localizedDescription]];
+    [webView loadHTMLString:html baseURL:webView.URL];
+}
+
+- (void)webView:(WKWebView *)webView didCommitNavigation:(null_unspecified WKNavigation *)navigation
+{
+    if (self.delegate && [(NSObject *)self.delegate respondsToSelector:@selector(browserViewDidCommitLoadForFrame:)])
+    {
+        [self.delegate browserViewDidCommitLoadForFrame:self];
+    }
+}
+
+- (void)webView:(WKWebView *)webView didFinishNavigation:(null_unspecified WKNavigation *)navigation
+{
+    if (self.delegate && [(NSObject *)self.delegate respondsToSelector:@selector(browserViewDidFinishLoadForFrame:)])
+    {
+        [self.delegate browserViewDidFinishLoadForFrame:self];
+    }
+}
+
+- (void)webView:(WKWebView *)webView didFailNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error
+{
+    if (self.delegate && [(NSObject *)self.delegate respondsToSelector:@selector(browserView:didFailLoadWithError:)])
+    {
+        [self.delegate browserView:self didFailLoadWithError:error];
+    }
+}
+
+#pragma mark - WKUIDelegte
+- (nullable WKWebView *)webView:(WKWebView *)webView createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration forNavigationAction:(WKNavigationAction *)navigationAction windowFeatures:(WKWindowFeatures *)windowFeatures
 {
     if (self.delegate && [(NSObject *)self.delegate respondsToSelector:@selector(browserView:decidePolicyForNewWindowWithRequest:)])
     {
-        [self.delegate browserView:self decidePolicyForNewWindowWithRequest:request];
-    }
-}
-
-- (void)webView:(WebView *)webView decidePolicyForMIMEType:(NSString *)type request:(NSURLRequest *)request frame:(WebFrame *)frame decisionListener:(id < WebPolicyDecisionListener >)listener
-{
-    [listener use];
-}
-
-#pragma mark - WebFrameLoadDelegate
-- (void)webView:(WebView *)sender didStartProvisionalLoadForFrame:(WebFrame *)frame;
-{
-    if (frame == [sender mainFrame])
-    {
-        if (self.delegate && [(NSObject *)self.delegate respondsToSelector:@selector(browserViewDidStartProvisionalLoad:)])
+        if (navigationAction.request.URL.absoluteString.length != 0)
         {
-            [self.delegate browserViewDidStartProvisionalLoad:self];
-        }
-        
-        NSString *url = [[[[frame provisionalDataSource] request] URL] absoluteString];
-        if (self.delegate && [(NSObject *)self.delegate respondsToSelector:@selector(browserView:didReceiveURL:)])
-        {
-            [self.delegate browserView:self didReceiveURL:url];
+            [self.delegate browserView:self decidePolicyForNewWindowWithRequest:navigationAction.request];
         }
     }
+    
+    return nil;
 }
 
-- (void)webView:(WebView *)sender didFailProvisionalLoadWithError:(NSError *)error forFrame:(WebFrame *)frame
+- (void)webViewDidClose:(WKWebView *)webView
 {
-    if (frame == [sender mainFrame])
-    {
-        NSError *err = nil;
-        NSString *html = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Error" ofType:@"html"] encoding:NSUTF8StringEncoding error:&err];
-        assert(!err);
-        html = [NSString stringWithFormat:html, [error localizedDescription]];
-        [self.webView.mainFrame loadAlternateHTMLString:html baseURL:[NSURL URLWithString:self.webView.mainFrameURL] forUnreachableURL:[NSURL URLWithString:self.webView.mainFrameURL]];
-    }
+    
 }
 
-- (void)webView:(WebView *)sender didCommitLoadForFrame:(WebFrame *)frame
-{
-    if (frame == [sender mainFrame])
-    {
-        if (self.delegate && [(NSObject *)self.delegate respondsToSelector:@selector(browserViewDidCommitLoadForFrame:)])
+- (void)webView:(WKWebView *)webView runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(void))completionHandler {
+    NSAlert *alert = [NSAlert new];
+    [alert addButtonWithTitle:@"OK"];
+    [alert setMessageText:frame.securityOrigin.host];
+    [alert setInformativeText:message];
+    [alert setAlertStyle:NSWarningAlertStyle];
+    [alert beginSheetModalForWindow:[self window] completionHandler:^(NSModalResponse returnCode) {
+        completionHandler();
+    }];
+}
+
+- (void) webView:(WKWebView *)webView runJavaScriptConfirmPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(BOOL))completionHandler {
+    NSAlert *alert = [NSAlert new];
+    [alert addButtonWithTitle:@"OK"];
+    [alert addButtonWithTitle:@"Cancel"];
+    [alert setMessageText:frame.securityOrigin.host];
+    [alert setInformativeText:message];
+    [alert setAlertStyle:NSWarningAlertStyle];
+    [alert beginSheetModalForWindow:[self window] completionHandler:^(NSModalResponse returnCode) {
+        if (returnCode == NSAlertFirstButtonReturn)
         {
-            [self.delegate browserViewDidCommitLoadForFrame:self];
+            completionHandler(YES);
         }
-    }
+        else if (returnCode == NSAlertSecondButtonReturn)
+        {
+            completionHandler(NO);
+        }
+    }];
 }
 
-- (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame
-{
-    if (frame == [sender mainFrame])
-    {
-        if (self.delegate && [(NSObject *)self.delegate respondsToSelector:@selector(browserViewDidFinishLoadForFrame:)])
+- (void)webView:(WKWebView *)webView runJavaScriptTextInputPanelWithPrompt:(NSString *)prompt defaultText:(NSString *)defaultText initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(NSString * _Nullable))completionHandler {
+    NSAlert *alert = [NSAlert new];
+    [alert addButtonWithTitle:@"OK"];
+    [alert addButtonWithTitle:@"Cancel"];
+    [alert setMessageText:frame.securityOrigin.host];
+    [alert setInformativeText:prompt];
+    [alert setAlertStyle:NSWarningAlertStyle];
+    NSTextField *input = [[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, 200, 24)];
+    [input setStringValue:defaultText];
+    [input autorelease];
+    [alert setAccessoryView:input];
+    [alert beginSheetModalForWindow:[self window] completionHandler:^(NSModalResponse returnCode) {
+        if (returnCode == NSAlertFirstButtonReturn)
         {
-            [self.delegate browserViewDidFinishLoadForFrame:self];
+            completionHandler(input.stringValue);
         }
-    }
-}
-
-- (void)webView:(WebView *)sender didFailLoadWithError:(NSError *)error forFrame:(WebFrame *)frame
-{
-    if (frame == [sender mainFrame])
-    {
-        if (self.delegate && [(NSObject *)self.delegate respondsToSelector:@selector(browserView:didFailLoadWithError:)])
+        else if (returnCode == NSAlertSecondButtonReturn)
         {
-            [self.delegate browserView:self didFailLoadWithError:error];
+            completionHandler(nil);
         }
-    }
-}
-
-- (void)webView:(WebView *)sender didReceiveTitle:(NSString *)title forFrame:(WebFrame *)frame
-{
-    if (frame == [sender mainFrame])
-    {
-        if (self.delegate && [(NSObject *)self.delegate respondsToSelector:@selector(browserView:didReceiveTitle:)])
-        {
-            [self.delegate browserView:self didReceiveTitle:title];
-        }
-    }
-}
-
-- (void)webView:(WebView *)sender didReceiveIcon:(NSImage *)image forFrame:(WebFrame *)frame
-{
-    if (frame == [sender mainFrame])
-    {
-        if (self.delegate && [(NSObject *)self.delegate respondsToSelector:@selector(browserView:didReceiveIcon:)])
-        {
-            [self.delegate browserView:self didReceiveIcon:image];
-        }
-    }
+    }];
 }
 
 @end

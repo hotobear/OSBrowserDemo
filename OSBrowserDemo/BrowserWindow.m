@@ -53,7 +53,7 @@
 @synthesize refreshButton;
 @synthesize icon;
 
-- (id)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag
+- (id)initWithContentRect:(NSRect)contentRect styleMask:(NSWindowStyleMask)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag
 {
     self = [super initWithContentRect:contentRect styleMask:aStyle backing:bufferingType defer:flag];
     if (self)
@@ -64,7 +64,7 @@
     return self;
 }
 
-- (id)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag screen:(NSScreen *)screen
+- (id)initWithContentRect:(NSRect)contentRect styleMask:(NSWindowStyleMask)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag screen:(NSScreen *)screen
 {
     self = [super initWithContentRect:contentRect styleMask:aStyle backing:bufferingType defer:flag screen:screen];
     if (self)
@@ -177,7 +177,7 @@
     [self.refreshButton setAction:@selector(refreshItemDidClicked:)];
     
     self.icon = [[[NSButton alloc] initWithFrame:frame] autorelease];
-    [self.icon.cell setHighlightsBy:NSNullCellType];
+    [self.icon.cell setHighlightsBy:NSNoCellMask];
     [self.icon.cell setBordered:NO];
     [self.icon setTarget:self];
     [self.icon setAction:@selector(iconDidClicked:)];
@@ -289,31 +289,31 @@
 - (NSMenu *)popupMenuForLongPressAction:(LongPressPopUpButton *)button
 {
     NSMenu *menu = [[[NSMenu alloc] init] autorelease];
-    WebBackForwardList *list = [self.browserView backForwardList];
+    WKBackForwardList *list = [self.browserView backForwardList];
     
     id<NSFastEnumeration> orderedList = nil;
     
     if (button == self.backButton)
     {
-        NSArray *backlist = [list backListWithLimit:BACKFORWARD_LIST_LIMIT];
+        NSArray *backlist = [list backList];
         orderedList = backlist;
     }
     else if (button == self.forwardButton)
     {
-        NSArray *forwardlist = [list forwardListWithLimit:BACKFORWARD_LIST_LIMIT];
+        NSArray *forwardlist = [list forwardList];
         NSEnumerator *reverseList = [forwardlist reverseObjectEnumerator];
         orderedList = reverseList;
     }
     
     if (orderedList)
     {
-        for (WebHistoryItem *item in orderedList)
+        for (WKBackForwardListItem *item in orderedList)
         {
-            NSString *title = [item title].length != 0 ? [item title] : [item URLString];
+            NSString *title = [item title].length != 0 ? [item title] : [[item URL] absoluteString];
             assert(title);
             NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:title action:@selector(backForwardMenuDidClicked:) keyEquivalent:@""];
             menuItem.representedObject = item;
-            [menuItem setImage:[item icon]];
+//            [menuItem setImage:[item icon]];
             [menu insertItem:menuItem atIndex:0];
             [menuItem release];
         }
@@ -335,7 +335,7 @@
 
 - (void)backForwardMenuDidClicked:(NSMenuItem *)item
 {
-    WebHistoryItem* historyItem = item.representedObject;
+    WKBackForwardListItem* historyItem = item.representedObject;
     [self.browserView goToBackForwardItem:historyItem];
 }
 
@@ -401,7 +401,7 @@
 {
     [self.backButton setEnabled:[self.browserView canGoBack]];
     [self.forwardButton setEnabled:[self.browserView canGoForward]];
-    [self.icon setImage:[[[self.browserView backForwardList] currentItem] icon]];
+//    [self.icon setImage:[[[self.browserView backForwardList] currentItem] icon]];
 }
 
 - (void)browserViewDidFinishLoadForFrame:(BrowserView *)browserView
